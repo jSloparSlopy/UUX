@@ -1,0 +1,55 @@
+﻿df	-free/available space
+du	-velicina trenutnog direktorija, -k, -m -b, -h
+mkdir	-novi direktorij, mkdir direktorij1
+rmdir	-brise prazan direktorij, rmdir direktorij1
+rm	-brise datoteku, rm -r direktorij1 -brise direktorij1, rm -rf * brise sve
+cp	-kopira, cp pero.txt .. -kopira pero.txt u prethodni direktorij,
+		cp pero.txt jura.txt -kopira datoteku u isti direktorij pod
+		imenom jura.txt
+		cp /home/pero.txt /home/jura.txt - obje staze apsolutne (/ ispred)
+		cp /home/pero.txt . -kopira pero.txt u trenutni direktorij
+		cp -R -rekurzivno kopiranje
+mv	-premjesta, mv pero.txt .. -premjesta u prethodni direktorij,
+		mv pero.txt jura.txt - kao rename
+ln	-link na datoteku/direktorij, ln -s ../jedan link_jedan
+		ln -s ../jedan
+>dat	-preusmjerava izlaz u datoteku, ls -al > datoteka.txt
+>>dat	-preusmjerava izlaz u datoteku i dodaje na kraj, ne brise stare, ls -al >> datoteka.txt
+<dat	-preusmjerava ulaz (iz dat) u naredbu, more < datoteka.txt
+tee	-cita sa ulaza i pise na izlaz ili u dat, daje prikaz i na zaslon
+		ls -al | tee izlaz
+cat	-ispisuje sadrzaj, cat dat
+		cat -E dat -prikazuje krajeve linija tako da stavi $
+		cat -n dat -prikazuje brojeve linija datoteke
+		cat jedan dva -povezuje dvije dat sa prikazom na zaslonu
+		cat jedan dva > cat -povezuje dvije dat u datoteku cat
+		cat jedan dva | tee cat -povezuje u dat cat i ispisuje
+more	-ispisuje sadrzaj, nije moguce ici gore sa strelicama, more dat
+less	-ispisuje sadrzaj, moguce je ici prema gore, less dat
+head	-head -100 dat -ispisuje prvih 100 redaka datoteke
+tail	-tail -100 dat -ispisuje zadnjih 100 redaka datoteke
+		tail -f dat -ispisuje zadnjih 10 redaka, stalno se osvjezava
+wc	-wc dat -ispisuje broj redaka/rijeci/znakova u datoteci
+time	-ispisuje vrijeme izvodjenja neke naredbe, time ls -al
+join	-kombinira dvije datoteke preko nekog stupca, moraju biti sortirani
+		join -1 4 -2 -4 jedan dva -povezuje 4. stupac dat jedan i
+		4. stupac dat dva
+paste	-povezuje dvije dat u vodoravnom usmjerenju, ne mora se podudarati stupac
+		paste jedan dva
+		paste -s jedan dva -jedno ispod drugog (oba 1. stupca u jednom stupcu)
+		paste -d. jedan dva -odvojeni su znakom tocka
+sort	-sortiranje, po stupcu -k, mjesecu -M, numericko -n, obrnuto -r
+		sort -k 4 dva -datoteka dva sortirana po 4. stupcu
+		sort -r -k 4 dva -datoteka dva sortirana obnuto po 4. stupcu
+od	-ispis u oktalnom obliku, od jedan
+split	-razdvaja datoteku, -b na bajtove, -l na brojeve linija
+		split -l 1 jedan 1 -razdvaja na 1aa 1ab 1ac
+nl	-numerira brojeve linija u datoteci, nl dva
+tr	-mijenja niz znakova s nekim drugim
+		tr ko jo < jedan -mijenja ko u jo i prikazuje na zaslon, ne mijenja dat
+		tr ko jo < jedan | tee tri -mijenja ko u jo, prikazuje i sprema u tri
+cut	-ispisuje odabrane znakove ili stupce
+		cut -c1,5 jedan -ispisuje 1. i 5. stupac
+		cut -c1-5 jedan -ispiuje od 1. do 5. stupca
+man	-naredba za pomoc, man cp -detaljnije o naredbi cp
+		

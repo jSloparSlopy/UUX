@@ -1,0 +1,106 @@
+ed		originalni uredjivac teksta na UNIX-u
+		ed imedatoteke
+		komande zavrsavaju s enter
+		"p" - pregled sadrzaja
+		"+" - prelazak na sljedecu liniju
+		"-" - prethodna linija
+		"a" ili "i" - unos teksta, zavrsimo s "."
+		s/stari tekst/novi tekst/ - promjena teksta na 
+			trenutnoj liniji
+		"d" - brisanje linije
+		/tekst/ - pretraga
+		"w" pa "q" kada smo gotovi s promjenama
+
+sed		sed [opcije] -f script-datoteka [ulazna-datoteka]
+		sed [opcije] script-tekst [ulazna-datoteka]
+		sed 's/Koko/Kojo/' dva > tri
+		
+vi 		namijenjen CLI, dobar za manje promjene, slozen
+		vi imedatoteke
+		osnovni mod u naredbeni sa ":" ili "/" za pretrazivanje, 
+			povratak sa Enter
+		osnovni mod u mod unosa sa "a", "A", "i", "I", "o", "O", 
+			povratak sa Esc
+		
+		osnovni mod:
+			"h" - lijevo jedna pozicija
+			"j" - dolje jednu liniju
+			"k" - gore jednu liniju
+			"l" - desno jedna pozicija
+			"$" - pomakni na kraj linije
+			"xG" - pomakni na x liniju
+			ctrl+b - stranica gore, ctrl+f - stranica dolje
+			Enter - prvo slovo u sljedecoj liniji
+			"J" - spoji liniju sa sljedecom linijom
+			ctrl+l - ponovno iscrtaj sadrzaj ekrana
+			ctrl+G - pokazi ime datoteke i velicinu
+		mod unosa:
+			"a" - nstavi pisati desno od kursora (append)
+			"A" - nastavi pisati na kraju tekuce linije
+			"i" - nastavi pisati lijevo od kursora (insert)
+			"I" - nastavi pisat od pocetka linije
+			"o" - otvori novu liniju ispod trenutne i pocni pisati
+			"O" - otvori liniju iznad trenutne i pocni pisati
+		naredbeni mod:
+			w imedat - zapisivanje, imedat nije obavezno
+			q - quit, izlazak u CLI ljusku
+			q! - izlazak bez pogovora (zanemari da nije snimljena promjena)
+			wq! - zapisi promjene i izadji bez pogovora ili dvostruki ZZ
+			u - undo, ponisti zadnji korak, U - ponisti sve promjene
+			/ tekst - pretrazivanje za tekstom, bez parametara trazi dalje
+			upisivanje broja podrazumijeva se skok na tu liniju
+			r imedat - ubaci sadrzaj datoteke imedat ispod trenutne linije
+			1,$s/niz/novi_niz/opcije - trazi niz i mijenja u novi,
+				ako je opcija prazna mijenja prvi, ako stoji "g" mijenja
+				sve pojave, ispred s dolaze opcije od koje do koje linije
+				se mijenja, specijalni znakovi su "." (trenutna linija) i "$"
+			1,$s - trazi unutar cijele dat
+			1,.s - trazi od pocetka do mjesta kursora 
+			.,32s - od polozaja kursora do 32 linije
+			set nu ili set nonu - (ne)vidljivi linijski brojevi
+			set ai ili set noai - (ne)ukljuci auto uvlacenje kod programiranja
+			set - ispisuje sve postavljene varijable
+			set all - ispisuje sve moguce varijable
+			x - obrisi znak na kojem kursor (delete)
+			X - obrisi znak ispred kursora (backspace)
+			d3 - brise dvije linije ispod kursora i onu na kojoj je kursor
+			dd - brise trenutnu liniju na kojoj je kursor
+			D - brise od pozicije kursora do kraja linije
+			y6 - kopira 6 linija ispod i trenutnu u spremnik
+			yy - kopira trenutnu liniju u spremnik
+			P - ispisuje sadezaj spremnika na ekran na poziciji ekran
+			
+nano	nano [+LINE] [options] [file]
+		opcije: - D zapisi u DOS formatu
+				- M zapisi u MAC formatu
+				- N zabrani konverziju datoteke
+				
+emacs	C-x C-f otvaranje novog dokumenta
+		C-x C-s spremanje trenutnog dokumenta
+		C-x C-c izlaz iz emacs-a (ali prvo spremi)
+		C-h naredba za pomoc
+		C-h t pomoc s detaljnim opisom
+		Esc x compile - kombinacija tipki za prevodjenje c koda
+		gcc -o ime ime.c
+		
+alias	alias imealiasa='komanda'
+		/home/.bashrc - mozemo u datoteci dodati aliase koji ce uvijek vrijediti
+
+shell script	which bash - za bash ljusku
+				#!/bin/bash - izgled zaglavlja shell skripte za bash
+				chmod a+x skripta.bash - omogucuje za sve da ju izvrse
+				pokrece se samo unosom imena, ako je skripta u varijabli staze,
+					inace se pokrece apsolutnom stazom ili u toj stazi
+					navodjenjem ./ ispred imena
+				echo `uname -o` - da bi se izvrsila komanda potrebno staviti ``
+					bez znakova ce samo ispisati komandu uname -o
+				ucitavanje sa zaslona (stdin):
+					read rijec - ucitava jednu rijec
+					read rijec1 rijec2 - dvije rijeci
+					read - sprema ono sto smo unijeli u $REPLY
+					read -a polje - sprema u polje, ${polje[0]}...
+					POLJE=(Debian Redhat 'Ubuntu Linux') - 3 elementa u polju
+					ELEMENTI=${#POLJE[@]} - broj elemenata
+			
+			
+			

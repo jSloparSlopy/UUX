@@ -1,0 +1,75 @@
+﻿znakovi		* zamjenjuje sve
+		? zamjenjuje jedan znak
+		[] zamjenjuje znakove unutar zagrada
+touch		izmjena vremena stvaranja datoteke, kreira praznu datoteku
+-rwxrw-r-- 	1. znak (-) - d za direktorij, l za link 
+		2.,3.,4. znak (rwx) - ovlasti vlasnika 
+		5.,6.,7. znak (rw-) - ovlasti grupe
+		7.,8.,9. znak (r--) - ovlasti svih ostalih
+chown		chown novivlasnik imedat - mijenja ime vlasnika datoteke
+chgrp		chgrp novagrupa imedat - mijenja grupu kojoj pripada datoteka
+chmod		mijenja pravila pristupa
+		chmod što operator dozvola
+		što: u, g, o, a (user, group, other, all)
+		operator: +, -, = (postavlja, skida, točno postavlja)
+		dozvola: r, w, x, s (read, write, execute, suid bit)
+		primjeri:
+		chmod 754 proba1 proba2 tmp
+		- datotekama proba1, proba2 i tmp se pridjeljuju rwx
+		  dozvole za vlasnika, rx za grupu i r za ostale
+		chmod ug=rx proba*
+		- datotekama koje počinju s proba se pridjeljuju prava
+		  čitanja i pisanja za vlasnika i grupu (stare dozvole
+		  se brišu), dok se dozvole za sve ostale ne mijenjaju		
+		chmod a-w proba?
+		- svima se oduzima pravo izmjene svih datoteka čije ime
+		  počinje sa proba, a pored tog imaju još samo jedan znak
+		chmod -R og+rx *diplomski*
+		- svim datotekama u trenutnom direktoriju i svim
+		  poddirektorijima koje sadrže diplomski, na postojeće
+		  dozvole za grupu i ostale se dodaju read i execute
+		chmod 700 xx*[abc]
+		- svim datotekama koje počinju s xx, a završavaju sa
+		  a ili b ili c, za vlasnika se postavljaju rwx dozvole,
+		  a grupi i ostalima se ukidaju sva prava pristupa
+adduser		adduser pero - dodavanje korisnika
+		adduser pero imegrupe - dodavanje u grupu
+passwd		passwd pero - promjena lozinke
+deluser		deluser pero - briše korisnika
+		--remove-all-files - briše sve datoteke korisnika
+addgroup	addgroup imegrupe - dodavanje u grupu
+delgroup	delgroup imegrupe - brisanje grupe
+groups		groups pero - ispisuje u kojim je pero grupama
+id		id pero - ispisuje id od korisnika i njegovih grupa i nazive
+finger		finger pero - provjera podataka o korisniku
+last		last -3 - ispisuje zadnjih 3 korisnika koji su se spojili		
+		last pero - ispisuje zadnjih x spajanja za korisnika
+umask		umask -S - trenutne postavke
+chattr		mijenja atribut neke datoteke
+		chattr +i imedat - zaštita od brisanja (čak i od root-a)
+		chattr -i imedat - skidanje zaštite
+		lsattr imedat - pregled postavljenih atributa
+zip		zip a.zip * - stvara a.zip napunjenu svim datotekama iz
+		trenutnog direktorija
+tar		ne obavlja kompresiju već povezuje datoteke i direktorije
+		u jednu datoteku
+		tar opcije imearhive.tar što
+		opcije: x (extract), c (create), v (verbose - ispiši što radiš)
+		z (zip - koristi gzip i napravi kompresiju tar-a),
+		f (file - koristi datoteku koja slijedi iza)
+		-C (koristi datoteke iz više direktorija)
+		što - adresa što se pakira, * označava sve u tom direktoriju
+		primjer:
+		tar cvf moje.tar /home/pero/*
+		- stvori tar, prikaži na ekranu, radi na datoteci iza,
+		  radi sa datotekama i direktorijima iz staze
+find		find imedir -name nekipattern
+		primjer:
+		- find /usr -name stdio.h - pretraživanje za patternom stdio.h
+		- find /root -mtime -1 - sve modificirano u protekla 24h
+grep		ls -al | grep baza$ - pronalazi direktorije koji završavaju
+		s riječi baza
+		ls -l | grep '^d' - pronalazi direktorije u ispisu direktorija
+		grep -l 'include' * - ispisuje nazive datoteka gdje je niz
+		grep -n 'include' * - ispisuje naziv dat, broj reda i redak niza
+		grep -H 'include' * - ispisuje naziv datoteke i redak

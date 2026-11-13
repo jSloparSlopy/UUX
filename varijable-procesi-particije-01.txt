@@ -1,0 +1,148 @@
+﻿- UNIX za svaki spoj dodjeljuje korisniku terminal (tty)
+
+/etc/securetty	- definirani terminali koje je moguće
+ 		dodijeliti root korisniku da se prijavi na sustav
+		- console - konzola na računalu
+		- ttyS - preko serijskog porta na računalo
+		- ttyXX - XX je broj, standardni terminali preko mreže
+		- ptsX - X je broj, pseudo terminal, prevodi se mrežni spoj
+
+inittab		- definirana veza konzole i terminala kao i radni nivoi (runlevel)
+		sustava i programi koji su u njima aktivni
+		- id:runlevels:action:process - format zapisa
+		- id - jedinstven niz od 1-4 znaka
+		- runlevels - lista radnih nivoa za koje će se akcija koristiti
+		- process - proces koji će se izvršiti
+		- actions - akcija nad procesom
+			- respawn - proces će se ponovno pokrenuti nakon terminiranja
+
+konzole		- obično ih je 6 (prebacivanje ALT+F1, ALT+F2, ...)
+		- sedma konzola je X-Windows system ALT+F7
+		- povratak nazad sa CTRL+ALT+F1, ...
+		- čim se terminal oslobodi može se dodijeliti drugome
+		- za spojeve putem ssh ili remote login dodjeljuju se pts (pseudo)
+
+screen		- naredba sa kojom nam se omogućava rad sa više instanci ljuske
+		kroz jedan terminal
+		- pokrećemo naredbom screen
+		- novi ekran - ponovnim pokretanjem naredbe screen ili CTRL+A+C
+		- prelazak između ekrana - CTRL+A+SPACE
+		- ubijanje ekrana s procesima - CTRL+A+K ili exit
+
+sistemske var	- ispisivanje imena sistemskih dat - ls -ad .* (počinju s ".")
+		- bitne sistemske datoteke: .profile, .bashrc
+		- važnije varijable: PATH, PS1
+		- UNIX varijable: env, set, typeset
+
+povijest nar	- .bash_history - služi za pohranjivanje naredbi koje su bile
+		pokretane unutar bash ljuske
+		- sadržaj - more .bash_history
+		- posljednih 10 - history | tail -10 ili history 10
+
+varijable	- dijele se na:
+			- varijable sustava (odnose se globalno na sve procese)
+			- varijable ljuske (odnose se samo na procese iz ljuske,
+			po potrebi stavljaju izvan opcije varijablu okoline 
+			mijenjajući joj vrijednost)
+		VARIJABLE SUSTAVA
+		- velikim slovima
+		- USER, HOME, HOST, ARCH, DISPLAY, PRINTER, PATH
+		- postavljanje - setenv
+		- skidanje - unsetenv
+		- ispis svih - printenv
+
+		VARIJABLE LJUSKE
+		- malim slovima
+		- history, pwd, home, path, prompt (ono prije znaka upita)
+		- ispisivanje i postavljanje - set
+		- skidanje - unset
+		
+bash ljuska	- ne razlikuje var ljuske i var okoline
+		- postavljanje - IME=vrijednost
+		- uklanjanje - unset IME
+
+procesi		- sastoji se od: memorijskog prostora u kojem je kod i podaci okoline
+		- primjer:
+			- jedan proces: cat lista1 lista2 > listavelika
+			- dva procesa: ls | wc -l
+		- svakom procesu dodijeljen vlastiti dio memorije kojem drugi ne mogu
+		pristupati
+		- OS (UNIX) također predstavlja zaseban proces
+		- ispis procesa - ps (processor status), na debianu ps aux
+			- a - svi, u - za sebe (korisnika), x - procesi koji i nisu
+			na ovom terminalu
+		- ps sadrži kolone:	- PID ID procesa
+					- TTY TTY za koje je proces vezan
+					- TIME ukupno vrijeme izvršavanja
+					- CMD naredba bez argumenata
+		- dodatne informacije korištenjem -f:
+					- UID vlasnik procesa
+					- PPID roditelj
+					- CMD naredba s argumentima
+		- opcije: 	-e - ispis svih procesa
+				-o - zadavanje ispisa željenih informacija
+				--sort - sortiranje ispisa (defaultno po PID)
+		- detaljan ispis svih procesa i dretvi: ps -eLf
+		- stanja: R - aktivni, S - spavajući, I - besposlen, T - zaustavljen
+			Z - zombi
+		- dodatne naredbe za ispis:
+			- pgrep - pretražuje procese na temelju imena i drugih atr.
+			- pstree - ispisuje stablo svih procesa
+			- top - konstantan ispis
+		- proces se prekida slanjem kill signala, kill -brojsignala PID
+		- killall - na temelju imena, killall apache2
+		- naredbom nice procesi se pokreću sa višim ili nižim prioritetom
+		- renice mijenja prioritet postojećeg procesa ili grupe
+		- stavljanje procesa u pozadinu - proces &
+
+posao - job	- predstavlja jednu liniju naredbi pozvanih unutar ljuske
+		- stavljanje posla u pozadinu ^Z, bg
+		- vraćanje iz pozadine fg %brojposla
+		- zaustavljanje poslova kill %brojposla
+
+runlevel	- skup pokrenutih procesa kod podizanja sustava
+		- 6 razina, svaki nivo ima svoj dir, /etc/rcN.d
+		- unutar dir su poveznice na /etc/init.d/	
+		- provjeravanje razine - runlevel
+		- inittab definira radni nivo - id:2:initdefault
+		- nivoi: 0 - spuštanje, 6 - resetiranje, S - single user mod, 
+		1 - single user bez mreže i servisa, 2 - multi user bez mreže
+		3 - multi user s mrežom, 4 - ne koristi se, 5 - X11 (GUI) i kao 3
+		- daemon - program koji radi u pozadini i brine se za zadatke koje
+		je dobio od korisnika
+
+logovi		- naredba dmesg javlja poruke koje je UNIX javljao na konzoli
+		- ostali se nalaze u /var/log
+		- tail -f /var/log/apache.log, spava se na datoteku i svaki novi
+		unos prikazuje odmah na ekranu
+		- najpoznatiji syslog - sadrži sve podatke koji ne spadaju 
+		pod kernel, a nemaju vlastiti log
+
+particije	- svaki disk sastoji se od master boot zapisa
+		- max 4 primarne particije (barem jedna), jedna kao glavna s koje se
+		podiže OS (boot particija)
+		- jedna extended koja pokriva ostatak, u njoj jedna od n logičkih
+		(n ovisi o tipu zapisa, npr 32, 64, 256)
+		- swap - virtualna memorija, obično se stvara da je 2×RAM, formatira
+		se naredbom mkswap, povezuje sa mount, moguće i naknadno povećati
+		- fdisk dev_diska - mijenjamo particije i datotečni sustav
+		- ispis particija - p
+		- brisanje - d
+		- stvaranje - n
+		- promjena tipa - t
+		- raspoloživi tipovi - l
+		- postavljanje boot particije - a
+		- izlaz i snimanje - wq
+		- formatiranje naredbama mkfs.ime_datotečnog_sustava particija
+		- formatiranje nije moguće ako je disk zauzet (mountan)
+		- priprema swap particije:
+			- swapon -s - gledanje aktivnog swap prostora
+			- swapoff dev_diska - gašenje aktivnog
+			- swapon dev_diska - ponovno pokretanje
+			- mkswap dev_diska - formatiranje (svaki disk ponovno 
+			dobiva UUID)
+
+mounting	- operacija vezivanje datotečnog sustava za neki OS
+		- skoro svi uređaji su u direktoriju /dev
+		- povezivanje diska: mount /dev/hdc3 /root/moj_disk
+		- automatsko podizanje sa: /etc/fstab
